@@ -6,6 +6,7 @@ import express from 'express';
 import { RequestHandler } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import { CONTROLLERS } from '../controllers/index'
 
 
 export class ApiServer implements HttpServer {
@@ -60,6 +61,11 @@ export class ApiServer implements HttpServer {
             res.send('Hello world!!')
         })
 
+        CONTROLLERS.forEach(controller => {
+            controller.initialize(this);
+        })
+
+        // server ready
         this.server.listen(port, () => {
             console.log(`Server up and running on http://localhost:${port}`);
         })
